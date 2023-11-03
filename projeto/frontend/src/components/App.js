@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { createRoot } from "react-dom/client";
+import GlobalStyle from './library/global'
 
-import MapContainer from "./MapContainer";
+import PageView from './view/PageView'
 
 export default class App extends Component {
   constructor(props) {
@@ -9,7 +10,10 @@ export default class App extends Component {
   }
   render() {
     return (
-        <MapContainer/>
+      <Fragment>
+        <GlobalStyle/>
+        <PageView/>
+      </Fragment>
     );
   }
 }
