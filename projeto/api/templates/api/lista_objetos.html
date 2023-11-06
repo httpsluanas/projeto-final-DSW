@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meus Objetos</title>
+</head>
+<body>
+    <h1>Meus Objetos</h1>
+    <ul>
+        {% for objeto in objetos %}
+            <li>Objeto {{ forloop.counter }}:</li>
+            <ul>
+                {% for chave, valor in objeto.items %}
+                    <li>{{ chave }}: {{ valor }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+</body>
+</html>

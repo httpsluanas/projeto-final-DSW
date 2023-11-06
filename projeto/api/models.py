@@ -1,16 +1,12 @@
 from django.db import models
-import string, random
 
+class ModeloDinamico(models.Model):
+    data = models.TextField()  # O campo onde você armazena o JSON como uma string
 
-def generate_unique_code():
-    length = 6
-    while True:
-        code = ''.join(random.choices(string.ascii_uppercase, k=length))
-        if Room.objects.filter(code=code).count() == 0:
-            break
-    return code
+""" class CamposDinamicos(models.Model):
+    modelo_dinamico = models.ForeignKey(ModeloDinamico, on_delete=models.CASCADE)
+    nome_campo = models.CharField(max_length=255)  # Nome do campo dinâmico
 
-
-class Room(models.Model):
-    objects = None
-    code = models.CharField(max_length=8, default="", unique=True)
+    def __str__(self):
+        return self.nome_campo
+ """
