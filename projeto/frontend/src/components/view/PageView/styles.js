@@ -23,18 +23,3 @@ StyledPageView.ContentBody = styled.div`
         margin-bottom: 24px;
     }
 `
-
-StyledPageView.ContentBody.Reference = styled.div`
-    display: flex;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 40px 0;
-    border-top: 1px solid #F1F1F1;
-    border-bottom: 1px solid #F1F1F1;
-`
-
-StyledPageView.ContentBody.Form = styled.div`
-    background: #F3F3F3;
-    padding: 24px;
-    border-radius: 8px;
-`

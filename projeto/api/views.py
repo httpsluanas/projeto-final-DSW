@@ -1,6 +1,7 @@
 import csv
 import json
 from io import StringIO
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import CSVUploadForm
 from .models import ModeloDinamico #CamposDinamicos
@@ -35,11 +36,11 @@ def upload_csv(request):
             modelo_dinamico.data = json.dumps(dados_dinamicos)
             modelo_dinamico.save()
 
-            return redirect('sucesso')
+            return HttpResponse(status=200)
     else:
         form = CSVUploadForm()
 
-    return render(request, 'api/upload_csv.html', {'form': form})
+    return render(request, 'frontend/index.html', {'form': form})
 
 def sucesso(request):
     return render(request, 'api/sucesso.html')

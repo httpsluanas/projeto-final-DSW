@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-const base = css`
+const baseStructure = css`
     display: inline-flex;
     gap: 4px;
     align-items: center;
@@ -8,23 +8,20 @@ const base = css`
     border-radius: 6px;
     border: 1px solid;
     font-weight: 600;
+    font-family: Noto Sans;
+    font-size: 16px;
 `
 
-const large = css`
+const largeStructure = css`
+    ${baseStructure};
     padding: 16px 24px;
-    ${base};
+    min-width: 170px;
 `
 
-const small = css`
+const smallStructure = css`
+    ${baseStructure};
     padding: 4px 8px;
-    ${base};
 `
-
-export const StyledButton = styled.button(({size}) => `
-    ${size === 'LARGE' ? large :
-      size === 'SMALL' ? small :
-      ''};
-`)
 
 const defaultSkin = css`
     &:disabled {
@@ -60,3 +57,15 @@ export const secondarySkin = css`
     ${defaultSkin};
 
 `
+
+export const StyledButton = styled.button(({size, styleType}) => `
+    ${size === 'LARGE' ? largeStructure :
+      size === 'SMALL' ? smallStructure :
+      ''};
+      
+    ${styleType === 'PRIMARY'   ? primarySkin   :
+      styleType === 'SECONDARY' ? secondarySkin :
+      ''};
+
+    cursor: pointer;
+`)
