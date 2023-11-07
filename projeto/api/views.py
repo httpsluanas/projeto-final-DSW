@@ -12,6 +12,7 @@ def upload_csv(request):
         form = CSVUploadForm(request.POST, request.FILES)
         if form.is_valid():
             csv_arq = form.cleaned_data['csv_arq']
+            nome_arquivo = csv_arq.name
             arq_formatado = csv_arq.read().decode('utf-8').splitlines()
             dic_csv = csv.DictReader(arq_formatado)
 
@@ -22,7 +23,8 @@ def upload_csv(request):
 
             campos = dados_csv[0].keys()
 
-            modelo_dinamico = ModeloDinamico.objects.create(data=[])
+            #modelo_dinamico = ModeloDinamico.objects.create(data=[])
+            modelo_dinamico = ModeloDinamico.objects.create(nome=nome_arquivo)
             """ for campo in campos:
                 CamposDinamicos.objects.create(modelo_dinamico=modelo_dinamico, nome_campo=campo) """
 
