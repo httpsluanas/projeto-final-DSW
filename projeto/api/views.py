@@ -4,8 +4,9 @@ from io import StringIO
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import CSVUploadForm
-from .models import ModeloDinamico #CamposDinamicos
+from .models import *
 from .db_utils import criar_tabela
+from django.apps import apps
 
 def upload_csv(request):
     if request.method == 'POST':
@@ -63,3 +64,17 @@ def lista_de_objetos(request):
 
     dicionario = {'objetos': objetos_json, 'campos': campos_nomes}
     return render(request, 'api/lista_objetos.html', dicionario)
+
+def lista_campos_tabelas(request):
+    modelos = [EquipamentoPublico, Geometria, Proprietario, RRR, Imovel, ModeloDinamico]
+
+    campos_tabelas = {}
+
+    for model in modelos:
+        nome_modelo = model._meta.object_name
+        campos = [field.name for field in model._meta.get_fields() if field.concrete]
+
+        campos_tabelas[nome_modelo] = campos
+
+    return render(request, 'frontend/lista_campos_tabelas.html', {'campos_tabelas': campos_tabelas})
+
