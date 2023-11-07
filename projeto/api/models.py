@@ -1,7 +1,10 @@
 from django.db import models
 
 class ModeloDinamico(models.Model):
-    data = models.TextField()  # O campo onde você armazena o JSON como uma string
+    data = models.TextField()
+    nome = models.CharField(max_length=255, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
 
 """ class CamposDinamicos(models.Model):
     modelo_dinamico = models.ForeignKey(ModeloDinamico, on_delete=models.CASCADE)
