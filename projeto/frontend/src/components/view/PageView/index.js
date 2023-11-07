@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import MainMenu from '../../library/MainMenu'
 import HomePageContainer from '../../HomePageContainer'
@@ -12,7 +13,11 @@ const PageView = ({
         <StyledPageView>
             <MainMenu/>
             <StyledPageView.ContentBody>
-                <HomePageContainer/>
+                <Router>
+                    <Switch>
+                        <Route path='/' component={HomePageContainer}/>
+                    </Switch>
+                </Router>
             </StyledPageView.ContentBody>
         </StyledPageView>
     )

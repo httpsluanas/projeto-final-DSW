@@ -4,7 +4,6 @@ import { StyledHomePageContainer } from './styles'
 import { toast } from 'react-toastify'
 
 import InputFile from '../library/inputFile'
-import DjangoCSRFToken from '../Utils/DjangoCSRFToken'
 import { getCookie } from '../Utils/utils'
 
 const HomePageContainer = ({
@@ -28,25 +27,25 @@ const HomePageContainer = ({
   
       try {
         const response = await axios.post('/api/upload/', formData);
-        toast.success('foi porra vai se fude')
+        toast.success('Arquivo enviado com sucesso')
       } catch (error) {
-        toast.error('erro >:(')
+        toast.error('Ocorreu um erro ao enviar seu arquivo')
       }
     }
 
     return (
          <>
             <div>
-                <h1>Título</h1>
-                <p>esse sistema tem como objetivo fazer isso e aquilo e tambem aquilo outro e ah n sei oq n sei oq esse sistema auxiliara voce a fqazer isso e aquilo na area tal e os caralho e aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa quero que tenha mais linhaaaaaaaaaaaaaaaaaaaaas mas tudo bem se n tiver boa noite a todos e todas espero que gosterm e que façam bom uso deste belo sistema</p>
+                <h1>Lorem Ipsum</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque hendrerit augue vitae metus hendrerit, et vulputate elit tempor. Vivamus dolor felis, auctor et maximus vitae, venenatis eget risus. Nulla eget lorem pellentesque, pellentesque lorem ut, pharetra augue. Quisque volutpat malesuada nibh nec lobortis. Cras luctus eleifend dolor eget venenatis. Quisque et bibendum eros. Duis non convallis neque. Nunc luctus consectetur varius. Mauris orci felis, dictum id dolor eu, rutrum bibendum sapien. Sed auctor sodales imperdiet. Nulla placerat dictum urna, eu ullamcorper ligula malesuada et. Fusce gravida est nec euismod vestibulum. Etiam commodo sapien eu est dictum, eu cursus libero vulputate.</p>
             </div>
             <StyledHomePageContainer.Reference>
                 <div>
                     <h2>Tabela referência</h2>
-                    <p>essa tabela bla bla bla blab alb alb alb alb </p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque hendrerit augue vitae metus hendrerit, et vulputate elit tempor. Vivamus dolor felis, auctor et maximus vitae, venenatis eget risus.</p>
                 </div>
                 <div>
-                    fotinha da tabela
+                    <img src=''/>
                 </div>
             </StyledHomePageContainer.Reference>
             <StyledHomePageContainer.Form onSubmit={handleSubmit}>
