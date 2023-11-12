@@ -58,14 +58,9 @@ export const secondarySkin = css`
 
 `
 
-export const StyledButton = styled.button(({size, styleType}) => `
+export const StyledButton = styled.button(({size}) => `
     ${size === 'LARGE' ? largeStructure :
       size === 'SMALL' ? smallStructure :
       ''};
-      
-    ${styleType === 'PRIMARY'   ? primarySkin   :
-      styleType === 'SECONDARY' ? secondarySkin :
-      ''};
-
     cursor: pointer;
 `)

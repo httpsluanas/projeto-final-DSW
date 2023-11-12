@@ -1,7 +1,11 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-export const StyledMainMenu = styled.ul`
+export const StyledMainMenu = styled.nav`
+
+`
+
+StyledMainMenu.List = styled.u`
     width: 300px;
     list-style: none;
     padding: 0;

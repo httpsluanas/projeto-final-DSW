@@ -3,7 +3,7 @@ import axios from 'axios'
 import { StyledHomePageContainer } from './styles'
 import { toast } from 'react-toastify'
 
-import InputFile from '../library/inputFile'
+import InputFile from '../library/inputs/InputFile'
 import { getCookie } from '../Utils/utils'
 
 const HomePageContainer = ({

@@ -1,4 +1,6 @@
-export const getCookie = (name) => {
+import React, { useContext } from 'react'
+
+export function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
         var cookies = document.cookie.split(';');
@@ -12,3 +14,9 @@ export const getCookie = (name) => {
     }
     return cookieValue;
 };
+
+export const PathsContext = React.createContext({})
+
+export function usePaths () {
+    return useContext(PathsContext)
+}

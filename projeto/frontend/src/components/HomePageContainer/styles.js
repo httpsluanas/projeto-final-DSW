@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Button from '../library/Button'
+import { PrimaryButton } from '../library/Button'
 
 export const StyledHomePageContainer = styled.div`
 
@@ -26,7 +26,7 @@ StyledHomePageContainer.Form = styled.form`
     }
 `
 
-StyledHomePageContainer.Form.Submit = styled(Button)`
+StyledHomePageContainer.Form.Submit = styled(PrimaryButton)`
     margin-top: 8px;
     justify-self: end;
 `

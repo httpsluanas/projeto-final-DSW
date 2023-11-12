@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.utils.translation import gettext_lazy as _
 
 class ModeloDinamico(models.Model):
     data = models.TextField()
@@ -46,4 +48,18 @@ class Imovel(models.Model):
     rrr = models.ForeignKey(RRR, on_delete=models.CASCADE)
     equipamento_publico = models.ForeignKey(EquipamentoPublico, on_delete=models.CASCADE)
     geometria = models.ForeignKey(Geometria, on_delete=models.CASCADE)
- 
+
+class AdminUser(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=20)
+    email = models.CharField(max_length=90)
+    password = models.CharField(max_length=90)
+
+class CustomUser(AbstractUser):
+    groups = models.ManyToManyField(Group, related_name='customuser_set', blank=True)
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='customuser_set',
+        verbose_name=_('user permissions'),
+        blank=True,
+    )

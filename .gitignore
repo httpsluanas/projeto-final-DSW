@@ -2,4 +2,4 @@ node
 node_modules
 projeto\frontend\static\js\main.js
 projeto\frontend\static\js\main.js.LICENSE.txt
-__pycache__/
+__pycache__
