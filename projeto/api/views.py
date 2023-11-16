@@ -81,18 +81,22 @@ def lista_de_objetos(request):
     return JsonResponse(dicionario, safe=False)
 
 def lista_campos_tabelas(request):
-    modelos = [EquipamentoPublico, Geometria, Proprietario, RRR, Imovel, ModeloDinamico]
+    models = [EquipamentoPublico, Geometria, Proprietario, RRR, Imovel, ModeloDinamico]
 
-    campos_tabelas = {}
+    tables = []
 
-    for model in modelos:
-        nome_modelo = model._meta.object_name
-        campos = [field.name for field in model._meta.get_fields() if field.concrete]
+    for model in models:
+        modelName = model._meta.object_name
+        fields = [field.name for field in model._meta.get_fields() if field.concrete]
 
-        campos_tabelas[nome_modelo] = campos
+        table = {
+            'name': modelName,
+            'fields': fields,
+        }
 
+        tables.append(table)
     # return render(request, 'frontend/lista_campos_tabelas.html', {'campos_tabelas': campos_tabelas})
-    return JsonResponse(campos_tabelas, safe=False)
+    return JsonResponse(tables, safe=False)
 
 def user_file(request):
     dados = ModeloDinamico.objects.values()

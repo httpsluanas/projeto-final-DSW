@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { SecondaryButton } from '../../Button'
+import { SecondaryButton } from '../../buttons'
 
 export const StyledInputFile = styled(SecondaryButton).attrs({styleType: 'SECONDARY'})`
     padding: 0;

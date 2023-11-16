@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
-import MainMenu from '../../library/MainMenu'
+import MainMenu from '../../library/mainMenu'
 import HomePageContainer from '../../HomePageContainer'
 import HistoryContainer from '../../HistoryContainer'
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { PrimaryButton } from '../library/Button'
+import { PrimaryButton } from '../library/buttons'
 
 export const StyledHomePageContainer = styled.div`
 

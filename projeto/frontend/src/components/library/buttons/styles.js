@@ -21,13 +21,11 @@ const largeStructure = css`
 const smallStructure = css`
     ${baseStructure};
     padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 700;
 `
 
 const defaultSkin = css`
-    &:disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
-    }
     &:focus:not(:active) {
         outline: 2px solid #3D3D3D;
     }
@@ -42,6 +40,13 @@ export const primarySkin = css`
         background: #0049DD;
         border-color: #003399;
     }
+
+    &:disabled{
+        background: #95B5F5;
+        border-color: #6392F2;
+        cursor: not-allowed;
+    }
+
     ${defaultSkin};
 
 `
@@ -54,6 +59,13 @@ export const secondarySkin = css`
     &:hover:not(:disabled){
         border-color: #767676;
     }
+
+    &:disabled{
+        background: #FBFBFB;
+        color: #B5B5B5;
+        cursor: not-allowed;
+    }
+
     ${defaultSkin};
 
 `

@@ -6,6 +6,8 @@ import { toast } from 'react-toastify'
 import InputFile from '../library/inputs/InputFile'
 import { getCookie } from '../Utils/utils'
 
+import ValidationModal from './ValidationModal'
+
 const HomePageContainer = ({
 }) => {
 
@@ -28,10 +30,21 @@ const HomePageContainer = ({
       try {
         const response = await axios.post('/api/upload/', formData);
         toast.success('Arquivo enviado com sucesso')
+        openModal()
       } catch (error) {
         toast.error('Ocorreu um erro ao enviar seu arquivo')
       }
     }
+
+    const [modalIsOpen, setIsOpen] = useState(false)
+
+    const openModal = () => (
+        setIsOpen(true)
+    )
+
+    const closeModal = () => (
+        setIsOpen(false)
+    )
 
     return (
          <>
@@ -55,6 +68,8 @@ const HomePageContainer = ({
                     Enviar
                 </StyledHomePageContainer.Form.Submit>
             </StyledHomePageContainer.Form>
+            <button onClick={openModal}>OI</button>
+            <ValidationModal {...{modalIsOpen, closeModal}}/>
         </>
     )
 }
