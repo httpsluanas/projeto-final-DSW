@@ -29,7 +29,11 @@ const Slider = ({
                 <StyledSlider.Dot isSelected={selectedLList.includes(i)} key={i}/>
             ))}
             </StyledSlider.Dots>
-            {!!children && React.Children.toArray(children)[currentSlide]}
+            {React.Children.toArray(children).map((child, i) => (
+                <StyledSlider.Slide showSlide={i === currentSlide}>
+                    {child}
+                </StyledSlider.Slide>
+            ))}
             <StyledSlider.Actions>
                 <SecondaryButton disabled={currentSlide === 0} size='SMALL' onClick={previousSlide}>
                     Anterior

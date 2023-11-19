@@ -9,13 +9,12 @@ const baseStructure = css`
     border: 1px solid;
     font-weight: 600;
     font-family: Noto Sans;
-    font-size: 16px;
+    font-size: 14px;
 `
 
 const largeStructure = css`
     ${baseStructure};
-    padding: 16px 24px;
-    min-width: 170px;
+    padding: 8px 16px;
 `
 
 const smallStructure = css`

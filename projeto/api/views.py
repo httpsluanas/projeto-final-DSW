@@ -1,87 +1,89 @@
 import csv
 import json
-from io import StringIO
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .forms import CSVUploadForm
 from .models import *
-from .db_utils import criar_tabela
+from .db_utils import createTable
 from django.apps import apps
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
-from .serializers import CustomUserSerializer, LoginSerializer
+from .serializers import CustomUserSerializer
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from django.db import transaction
+from django.shortcuts import get_object_or_404
+from .models import EquipamentoPublico, Geometria, Proprietario, RRR, Imovel
 
 CustomUser = get_user_model()
 
-def upload_csv(request):
+@transaction.atomic
+def uploadFile(request):
     if request.method == 'POST':
         form = CSVUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            csv_arq = form.cleaned_data['csv_arq']
-            nome_arquivo = csv_arq.name
-            arq_formatado = csv_arq.read().decode('utf-8').splitlines()
-            dic_csv = csv.DictReader(arq_formatado)
+            try:
+                csvFile = form.cleaned_data['csv_arq']
+                fileName = csvFile.name
+                formattedFile = csvFile.read().decode('utf-8').splitlines()
+                dic_csv = csv.DictReader(formattedFile)
 
-            dados_csv = list(dic_csv)
-            csv_arq.seek(0)
+                csvData = list(dic_csv)
+                csvFile.seek(0)
 
-            criar_tabela(csv.DictReader(arq_formatado))
+                createTable(dic_csv)
 
-            campos = dados_csv[0].keys()
+                fields = csvData[0].keys()
 
-            #modelo_dinamico = ModeloDinamico.objects.create(data=[])
-            modelo_dinamico = ModeloDinamico.objects.create(nome=nome_arquivo)
-            """ for campo in campos:
-                CamposDinamicos.objects.create(modelo_dinamico=modelo_dinamico, nome_campo=campo) """
+                # Gere o id no backend antes de criar o objeto
+                dinamicModel = ModeloDinamico.objects.create(nome=fileName)
+                id = dinamicModel.id  # Agora você tem o id gerado no backend
 
-            dados_dinamicos = []
-            for linha in dados_csv:
-                linha_dados = {}
-                for campo in campos:
-                    linha_dados[campo] = linha[campo]
-                dados_dinamicos.append(linha_dados)
+                dinamicData = []
+                for line in csvData:
+                    dataLine = {}
+                    for field in fields:
+                        dataLine[field] = line[field]
+                    dinamicData.append(dataLine)
 
-            modelo_dinamico.data = json.dumps(dados_dinamicos)
-            modelo_dinamico.save()
+                dinamicModel.data = json.dumps(dinamicData)
+                dinamicModel.save()
 
-            return HttpResponse(status=200)
+                response_data = {'id': id}
+                return JsonResponse(response_data)
+            except Exception as e:
+                print(f"Erro ao processar: {e}")
+                return JsonResponse({'error': 'Erro interno ao processar a solicitação'}, status=500)
+        else:
+            return JsonResponse({'error': 'Formulário inválido'}, status=400)
     else:
-        form = CSVUploadForm()
+        return JsonResponse({'error': 'Método não permitido'}, status=405)
 
-    return render(request, 'frontend/index.html', {'form': form})
+def userData(request, id):
+    modelo_dinamico = get_object_or_404(ModeloDinamico, id=id)
 
-def lista_de_objetos(request):
-    objetos = ModeloDinamico.objects.all()
-    objetos_json = []
+    try:
+        objectsJson = json.loads(modelo_dinamico.data)
+    except json.JSONDecodeError:
+        objectsJson = []
 
-    for objeto in objetos:
-        try:
-            dados = json.loads(objeto.data)
-            objetos_json.extend(dados)
-        except json.JSONDecodeError:
-            pass
+    if objectsJson and isinstance(objectsJson, list):
+        first_object = objectsJson[0] if objectsJson else {}
+        fieldsName = list(first_object.keys())
+    else:
+        fieldsName = []
 
-    #campos = CamposDinamicos.objects.filter(modelo_dinamico=objetos.first())
-    campos_nomes = [campo.nome_campo for campo in campos]
-    dicionario = {'objetos': objetos_json, 'campos': campos_nomes}
+    return JsonResponse(fieldsName, safe=False)
 
-    # return render(request, 'api/lista_objetos.html', dicionario)
-    return JsonResponse(dicionario, safe=False)
-
-def lista_campos_tabelas(request):
-    models = [EquipamentoPublico, Geometria, Proprietario, RRR, Imovel, ModeloDinamico]
+def defaultDataTable(request):
+    models = [EquipamentoPublico, Geometria, Proprietario, RRR, Imovel]
 
     tables = []
 
@@ -95,19 +97,57 @@ def lista_campos_tabelas(request):
         }
 
         tables.append(table)
-    # return render(request, 'frontend/lista_campos_tabelas.html', {'campos_tabelas': campos_tabelas})
+
     return JsonResponse(tables, safe=False)
 
-def user_file(request):
-    dados = ModeloDinamico.objects.values()
-    return JsonResponse(list(dados), safe=False)
+def processar_formulario(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            equipamento_data = data.get('equipamento', {})
+            geometria_data = data.get('geometria', {})
+            proprietario_data = data.get('proprietario', {})
+            rrr_data = data.get('rrr', {})
+            imovel_data = data.get('imovel', {})
+
+            # Criar instâncias dos modelos sem salvar no banco de dados ainda
+            equipamentoPublico = EquipamentoPublico(**equipamento_data)
+            geometria = Geometria(**geometria_data)
+            proprietario = Proprietario(**proprietario_data)
+            rrr = RRR(**rrr_data)
+
+            # Salvando no banco de dados
+            equipamentoPublico.save()
+            geometria.save()
+            proprietario.save()
+            rrr.save()
+
+            # Criar instância de Imovel e associar às instâncias relacionadas
+            imovel = Imovel.objects.create(
+                endereco=imovel_data.get('endereco', ''),
+                tipo=imovel_data.get('tipo', ''),
+                area=imovel_data.get('area', ''),
+                proprietario=proprietario,
+                rrr=rrr,
+                equipamento_publico=equipamentoPublico,
+                geometria=geometria,
+            )
+
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Método não permitido'})
+
+def userHistory(request):
+    return JsonResponse(list(ModeloDinamico.objects.values()), safe=False)
 
 @csrf_exempt 
 @require_http_methods(["DELETE"])
-def delete_file(request, id):
+def userHistoryDelete(request, id):
     try:
-        objeto_para_excluir = ModeloDinamico.objects.get(pk=id)
-        objeto_para_excluir.delete()
+        ModeloDinamico.objects.get(pk=id).delete()
         return JsonResponse({'mensagem': 'Objeto excluído com sucesso.'})
     except ModeloDinamico.DoesNotExist:
         return JsonResponse({'erro': 'O objeto não foi encontrado.'}, status=404)
@@ -116,19 +156,15 @@ def delete_file(request, id):
     
 @csrf_exempt
 @require_http_methods(["PATCH"])
-def edit_file(request, id):
+def userHistoryEdit(request, id):
     try:
-        objeto_para_editar = ModeloDinamico.objects.get(pk=id)
-
-        # Obtenha os dados do corpo da requisição JSON
-        dados = json.loads(request.body.decode('utf-8'))
-
-        # Suponha que você esteja recebendo o novo nome no campo 'nome'
-        novo_nome = dados.get('nome', None)
+        object = ModeloDinamico.objects.get(pk=id)
+        data = json.loads(request.body.decode('utf-8'))
+        newName = data.get('nome', None)
         
-        if novo_nome is not None:
-            objeto_para_editar.nome = novo_nome
-            objeto_para_editar.save()
+        if newName is not None:
+            object.nome = newName
+            object.save()
 
             return JsonResponse({'mensagem': 'Campo editado com sucesso.'})
         else:
@@ -138,34 +174,26 @@ def edit_file(request, id):
         return JsonResponse({'erro': 'O objeto não foi encontrado.'}, status=404)
     except Exception as e:
         return JsonResponse({'erro': str(e)}, status=500)
-    
 
 class RegisterView(CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login(request):
-    # Obtenha as credenciais do corpo da solicitação
     username = request.data.get('username')
     password = request.data.get('password')
 
-    # Autentique o usuário
     user = authenticate(request, username=username, password=password)
 
     if user is not None:
-        # Construa o objeto de resposta com informações do usuário
         user_info = {
             'id': user.id,
             'username': user.username,
             'email': user.email,
-            # Adicione outros campos conforme necessário
         }
-
-        # Obtenha ou crie um token para o usuário autenticado
-        token, created = Token.objects.get_or_create(user=user)
+        token = Token.objects.get_or_create(user=user)
 
         return Response({'token': token.key, 'user_info': user_info}, status=status.HTTP_200_OK)
     else:

@@ -11,6 +11,17 @@ import ValidationModal from './ValidationModal'
 const HomePageContainer = ({
 }) => {
 
+    const [modalIsOpen, setIsOpen] = useState(false)
+    const [userData, setUserData ] = useState(null)
+
+    const openModal = () => (
+        setIsOpen(true)
+    )
+
+    const closeModal = () => (
+        setIsOpen(false)
+    )
+
     const [csrftoken, setCsrftoken] = useState(null)
 
     useEffect(() => {
@@ -18,7 +29,7 @@ const HomePageContainer = ({
         setCsrftoken(csrftoken)
     }, [])
 
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState(null)
 
     const handleSubmit = async (e) => {
       e.preventDefault()
@@ -28,23 +39,25 @@ const HomePageContainer = ({
       formData.append('csrfmiddlewaretoken', csrftoken)
   
       try {
-        const response = await axios.post('/api/upload/', formData);
-        toast.success('Arquivo enviado com sucesso')
-        openModal()
+        const response = await axios.post('/api/upload/', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        if (response.status === 200) {
+            const userDataId = response.data.id
+            try {
+                const userDataResponse = await axios.get(`/api/lista_objetos/${userDataId}/`);
+                setUserData(userDataResponse.data)
+                openModal()
+            } catch (userDataError) {
+                console.error('Erro ao obter dados do usuário:', userDataError);
+            }
+          } else {
+            toast.error('Ocorreu um erro ao enviar seu arquivo')
+          }
       } catch (error) {
         toast.error('Ocorreu um erro ao enviar seu arquivo')
       }
     }
-
-    const [modalIsOpen, setIsOpen] = useState(false)
-
-    const openModal = () => (
-        setIsOpen(true)
-    )
-
-    const closeModal = () => (
-        setIsOpen(false)
-    )
 
     return (
          <>
@@ -68,8 +81,7 @@ const HomePageContainer = ({
                     Enviar
                 </StyledHomePageContainer.Form.Submit>
             </StyledHomePageContainer.Form>
-            <button onClick={openModal}>OI</button>
-            <ValidationModal {...{modalIsOpen, closeModal}}/>
+            <ValidationModal {...{modalIsOpen, closeModal, userData}}/>
         </>
     )
 }

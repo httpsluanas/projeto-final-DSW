@@ -8,46 +8,45 @@ class ModeloDinamico(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 
-""" class CamposDinamicos(models.Model):
+class CamposDinamicos(models.Model):
     modelo_dinamico = models.ForeignKey(ModeloDinamico, on_delete=models.CASCADE)
-    nome_campo = models.CharField(max_length=255)  # Nome do campo dinâmico
+    nome_campo = models.CharField(max_length=255)
 
     def __str__(self):
         return self.nome_campo
- """
 
 class EquipamentoPublico(models.Model):
     id_equipamento = models.AutoField(primary_key=True)
-    nome = models.CharField(max_length=20)
-    tipo = models.CharField(max_length=20)
+    nome = models.CharField(max_length=20, null=True, blank=True)
+    tipo = models.CharField(max_length=20, null=True, blank=True)
 
 class Geometria(models.Model):
     id_geom = models.AutoField(primary_key=True)
-    centroide = models.CharField(max_length=20)
-    area = models.CharField(max_length=20)
+    centroide = models.CharField(max_length=20, null=True, blank=True)
+    area = models.CharField(max_length=20, null=True, blank=True)
 
 class Proprietario(models.Model):
     id_proprietario = models.AutoField(primary_key=True)
-    nome = models.CharField(max_length=20)
-    data_nasc = models.DateField()
-    cpf = models.CharField(max_length=20)
+    nome = models.CharField(max_length=20, null=True, blank=True)
+    data_nasc = models.DateField(null=True, blank=True)
+    cpf = models.CharField(max_length=20, null=True, blank=True)
 
 class RRR(models.Model):
     id_RRR = models.AutoField(primary_key=True)
-    tipo = models.CharField(max_length=20)
-    descricao = models.CharField(max_length=20)
-    data_inicio = models.DateField()
-    data_termino = models.DateField()
+    tipo = models.CharField(max_length=20, null=True, blank=True)
+    descricao = models.CharField(max_length=20, null=True, blank=True)
+    data_inicio = models.DateField(null=True, blank=True)
+    data_termino = models.DateField(null=True, blank=True)
 
 class Imovel(models.Model):
     id_imovel = models.AutoField(primary_key=True)
-    endereco = models.CharField(max_length=20)
-    tipo = models.CharField(max_length=20)
-    area = models.CharField(max_length=20)
-    proprietario = models.ForeignKey(Proprietario, on_delete=models.CASCADE)
-    rrr = models.ForeignKey(RRR, on_delete=models.CASCADE)
-    equipamento_publico = models.ForeignKey(EquipamentoPublico, on_delete=models.CASCADE)
-    geometria = models.ForeignKey(Geometria, on_delete=models.CASCADE)
+    endereco = models.CharField(max_length=20, null=True, blank=True)
+    tipo = models.CharField(max_length=20, null=True, blank=True)
+    area = models.CharField(max_length=20, null=True, blank=True)
+    proprietario = models.ForeignKey(Proprietario, on_delete=models.CASCADE, null=True, blank=True)
+    rrr = models.ForeignKey(RRR, on_delete=models.CASCADE, null=True, blank=True)
+    equipamento_publico = models.ForeignKey(EquipamentoPublico, on_delete=models.CASCADE, null=True, blank=True)
+    geometria = models.ForeignKey(Geometria, on_delete=models.CASCADE, null=True, blank=True)
 
 class AdminUser(models.Model):
     id = models.AutoField(primary_key=True)

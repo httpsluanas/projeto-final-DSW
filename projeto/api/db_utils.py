@@ -1,7 +1,7 @@
 from django.db import connection
 import time
 
-def criar_tabela(dic_csv):
+def createTable(dic_csv):
     with connection.cursor() as cursor:
         campos = dic_csv.fieldnames
 

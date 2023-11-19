@@ -5,14 +5,13 @@ import { Multiply } from '../icons'
 
 export const StyledModal = styled(ReactModal)`
     width: 700px;
-    border-radius: 16px;
 
     transform: scale(0.5);
     background: red;
 
+    border-radius: 16px;
     border: 1px solid #ccc;
     background: #fff;
-    overflow: hidden;
     outline: none;
 
     &.ReactModal__Content--after-open{
@@ -25,6 +24,7 @@ export const StyledModal = styled(ReactModal)`
 `
 
 StyledModal.Header = styled.div`
+    border-radius: 16px 16px 0 0;
     display: grid;
     grid-template-areas: "title close"
                          "subtitle close";
@@ -48,7 +48,7 @@ StyledModal.Subtitle = styled.p`
 
     margin: 0;
     font-family: Noto Sans;
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
     color: #3D3D3D;
     margin-top: 8px;
@@ -73,6 +73,8 @@ StyledModal.Body = styled.div`
 `
 
 StyledModal.Footer = styled.div`
+    border-radius: 0 0 16px 16px;
+
     display: flex;
     gap: 16px;
     justify-content: flex-end;

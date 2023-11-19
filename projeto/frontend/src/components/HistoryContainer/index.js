@@ -9,7 +9,7 @@ const HistoryContainer = ({
     const fetchObjetos = async () => {
         try {
             setIsFetching(true);
-              const response = await fetch('/api/userFile/')
+              const response = await fetch('/api/userHistory/')
             const data = await response.json();
             setHistoric(data);
         } catch (error) {
@@ -24,7 +24,7 @@ const HistoryContainer = ({
     }, [])
 
     const handleDelete = (id) => {
-        fetch(`/api/userFile/${id}/delete/`, {
+        fetch(`/api/userHistory/${id}/delete/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ const HistoryContainer = ({
     }
 
     const handleEdit = (id, newName) => {
-        fetch(`/api/userFile/${id}/edit/`, {
+        fetch(`/api/userHistory/${id}/edit/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

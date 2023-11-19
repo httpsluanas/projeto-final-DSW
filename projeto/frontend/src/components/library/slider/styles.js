@@ -4,6 +4,10 @@ export const StyledSlider = styled.div`
 
 `
 
+StyledSlider.Slide = styled.div(({showSlide}) => `
+    display: ${showSlide ? 'block' : 'none'};
+`)
+
 StyledSlider.Actions = styled.div`
     display: flex;
     justify-content: flex-end;
