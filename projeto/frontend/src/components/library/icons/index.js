@@ -5,3 +5,4 @@ export const InfoCircle = Unicons.UilInfoCircle
 export const Signout = Unicons.UilSignout
 export const History = Unicons.UilHistory
 export const Multiply = Unicons.UilMultiply
+export const ExclamationOctagon = Unicons.UilExclamationOctagon
