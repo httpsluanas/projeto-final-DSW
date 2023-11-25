@@ -175,10 +175,6 @@ def userHistoryEdit(request, id):
     except Exception as e:
         return JsonResponse({'erro': str(e)}, status=500)
 
-class RegisterView(CreateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login(request):
@@ -198,3 +194,14 @@ def login(request):
         return Response({'token': token.key, 'user_info': user_info}, status=status.HTTP_200_OK)
     else:
         return Response({'error': 'Credenciais inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
+
+class RegisterView(CreateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+
+class CheckAvailabilityView(CreateAPIView):
+    def get(self, request):
+        emails = CustomUser.objects.values_list('email', flat=True)
+        usernames = CustomUser.objects.values_list('username', flat=True)
+
+        return Response({'emails': emails, 'usernames': usernames}, status=status.HTTP_200_OK)

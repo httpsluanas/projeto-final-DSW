@@ -13,15 +13,23 @@ const baseStructure = css`
 `
 
 const largeStructure = css`
+    padding: ${({onlyIcon}) => onlyIcon ? '16px' : '8px 16px'};
+    height: 52px;
     ${baseStructure};
-    padding: 8px 16px;
 `
 
 const smallStructure = css`
-    ${baseStructure};
-    padding: 4px 8px;
+    padding: ${({onlyIcon}) => onlyIcon ? '8px' : '4px 8px'};
     font-size: 12px;
     font-weight: 700;
+    ${baseStructure};
+`
+
+export const StyledButton = styled.button`
+    ${({size}) => size === 'LARGE' ? largeStructure :
+      size === 'SMALL' ? smallStructure :
+      ''};
+    cursor: pointer;
 `
 
 const defaultSkin = css`
@@ -47,7 +55,6 @@ export const primarySkin = css`
     }
 
     ${defaultSkin};
-
 `
 
 export const secondarySkin = css`
@@ -66,12 +73,21 @@ export const secondarySkin = css`
     }
 
     ${defaultSkin};
-
 `
 
-export const StyledButton = styled.button(({size}) => `
-    ${size === 'LARGE' ? largeStructure :
-      size === 'SMALL' ? smallStructure :
-      ''};
-    cursor: pointer;
-`)
+export const noBgSkin = css`
+    background: transparent;
+    color: #3D3D3D;
+    border: none;
+
+    &:hover:not(:disabled){
+        background: #F1F1F1;
+    }
+
+    &:disabled{
+        color: #B5B5B5;
+        cursor: not-allowed;
+    }
+
+    ${defaultSkin};
+`

@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import ReactModal from 'react-modal'
+import Modal from 'react-modal'
 import { Multiply } from '../icons'
 
-export const StyledModal = styled(ReactModal)`
+export const StyledModal = styled(Modal)`
     width: 700px;
 
     transform: scale(0.5);
