@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { device } from '../../Utils/responsive-utils'
 
 export const StyledMainMenu = styled.nav`
-
 `
 
-StyledMainMenu.List = styled.u`
+StyledMainMenu.List = styled.ul`
     width: 300px;
     list-style: none;
     padding: 0;
@@ -15,43 +15,25 @@ StyledMainMenu.List = styled.u`
     gap: 4px;
     i {
         display: inline-block;
-        width: 1.5em;
-        height: 1.5em;
         vertical-align: bottom;
         margin-right: 6px;
-        svg {
-            width: 100%;
-            height: 100%;
-        }
+    }
+
+    @media ${device.tablet} {
+        width: 100%;
+        flex-direction: row;
     }
 `
 
 StyledMainMenu.Item = styled.li`
-    font-weight: 600;
+    ${({theme}) => theme.typography.body.strong};
 `
 
 StyledMainMenu.Item.Profile = styled(StyledMainMenu.Item)`
     background: #FBFBFB;
     border-radius: 16px;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    padding: 16px;
     margin-bottom: 16px;
-
-    figure {
-        width: 57px;
-        height: 57px;
-        margin: 0;
-        padding: 0;
-        border-radius: 50%;
-        overflow: hidden;
-        img {
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-        }
-    }
 
     dl {
         margin: 0;
@@ -60,6 +42,7 @@ StyledMainMenu.Item.Profile = styled(StyledMainMenu.Item)`
             font-weight: 400;
             color: #767676;
             margin: 0;
+            text-decoration: none;
         }
     }
 `
@@ -76,6 +59,6 @@ StyledMainMenu.Link = styled(Link)`
     box-sizing: border-box;
     display: inline-block;
     color: #3D3D3D;
-    padding: 16px 16px;
+    padding: 16px;
     text-decoration: none;
 `

@@ -1,4 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+
+import { Pen, TrashAlt } from '../library/icons'
+import Modal from '../library/modals'
+import { PrimaryButton, SecondaryButton } from '../library/buttons'
+import Loader from '../library/loader'
+
+import { StyledHistoryContainer } from './styles'
 
 const HistoryContainer = ({
 }) => {
@@ -6,14 +14,29 @@ const HistoryContainer = ({
     const [historic, setHistoric] = useState()
     const [isFetching, setIsFetching] = useState(true)
 
+    const [modalIsOpen, setIsOpen] = useState(false)
+    const [modalData, setModalData] = useState('')
+
+    const [editingNameId, setEditingNameId] = useState(null)
+    const [newName, setNewName] = useState(null)
+    
+    const openModal = (data) => {
+        setIsOpen(true)
+        setModalData(data)
+    }
+    const closeModal = () => {
+        setModalData('')
+        setIsOpen(false)
+    }
+
     const fetchObjetos = async () => {
         try {
-            setIsFetching(true);
+            setIsFetching(true)
               const response = await fetch('/api/userHistory/')
-            const data = await response.json();
-            setHistoric(data);
+            const data = await response.json()
+            setHistoric(data)
         } catch (error) {
-            console.error('Erro ao buscar objetos:', error)
+            toast.error('Erro ao buscar objetos:', error)
         } finally {
             setIsFetching(false)
         }
@@ -31,11 +54,12 @@ const HistoryContainer = ({
             },
         }).then(response => response.json())
           .then(data => {
-            console.log(data)
+            toast.success('Arquivo excluído com sucesso')
+            closeModal()
             fetchObjetos()
           })
           .catch(error => {
-            console.error('Erro ao excluir:', error)
+            toast.error('Erro ao excluir')
           })
     }
 
@@ -49,75 +73,89 @@ const HistoryContainer = ({
         })
         .then(response => response.json())
       .then(data => {
-        console.log(data)
+        toast.success('Arquivo renomeado com sucesso')
+        setEditingNameId(null)
         fetchObjetos()
       })
       .catch(error => {
-        console.error('Erro ao editar:', error)
+        toast.error('Erro ao editar')
       })
   }
 
     return (
-        <div>
-            <h2>Histórico</h2>
-            {isFetching ? 'loader' : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                Arquivo
-                            </th>
-                            <th>
-                                Data de envio
-                            </th>
-                            <th>
-                                Ações
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {!!historic && historic.length > 0 ? (
-                            historic.map(item => (
-                                <tr key={item.id}>
-                                    <td>
-                                        {item.nome}
-                                    </td>
-                                    <td>
-                                        {new Date(item.timestamp).toLocaleDateString()}
-                                    </td>
-                                    <td>
-                                        <button onClick={() => handleEdit(item.id, prompt('Nome editado'))}>
-                                            Renomear
-                                        </button>
-                                        <button onClick={() => handleDelete(item.id)}>
-                                            Excluir
-                                        </button>
+        <>
+            <StyledHistoryContainer>
+                <StyledHistoryContainer.Title>
+                    Histórico
+                </StyledHistoryContainer.Title>
+                {isFetching ? <Loader/> : (
+                    <StyledHistoryContainer.Table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Arquivo
+                                </th>
+                                <th>
+                                    Data de envio
+                                </th>
+                                <th>
+                                    Ações
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {!!historic && historic.length > 0 ? (
+                                historic.map(item => (
+                                    <tr key={item.id}>
+                                        <td>
+                                            {editingNameId === item.id ? (
+                                                <StyledHistoryContainer.Table.Editing>
+                                                    <StyledHistoryContainer.RenameInput defaultValue={item.nome} onChange={(e) => setNewName(e.target.value)}/>
+                                                    <PrimaryButton disabled={newName === '' || !newName} size='SMALL' onClick={() => handleEdit(item.id, newName)}>
+                                                        Confirmar
+                                                    </PrimaryButton>
+                                                    <SecondaryButton size='SMALL' onClick={() => setEditingNameId(null)}>
+                                                        Cancelar
+                                                    </SecondaryButton>
+                                                </StyledHistoryContainer.Table.Editing>
+                                            ) : (
+                                                item.nome
+                                            )} 
+                                        </td>
+                                        <td>
+                                            {new Date(item.timestamp).toLocaleDateString()}
+                                        </td>
+                                        <td>
+                                            <StyledHistoryContainer.Actions>
+                                                <StyledHistoryContainer.RenameButton onClick={() => setEditingNameId(item.id)}>
+                                                    <Pen/> Renomear
+                                                </StyledHistoryContainer.RenameButton>
+                                                <StyledHistoryContainer.RemoveButton onClick={() => openModal(item)}>
+                                                    <TrashAlt/> Excluir
+                                                </StyledHistoryContainer.RemoveButton>
+                                            </StyledHistoryContainer.Actions>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td rowSpan={3}>
+                                        Nenhum dado encontrado
                                     </td>
                                 </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td rowSpan={3}>
-                                    Nenhum dado encontrado
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            )}
-            {/* {data.objetos.map((objeto, index) => (
-                <li key={index}>
-                    Objeto {index + 1}:
-                    <ul>
-                    {Object.entries(objeto).map(([chave, valor], i) => (
-                        <li key={i}>
-                        {chave}: {valor}
-                        </li>
-                    ))}
-                    </ul>
-                </li>
-            ))} */}
-        </div>
+                            )}
+                        </tbody>
+                    </StyledHistoryContainer.Table>
+                )}
+            </StyledHistoryContainer>
+            <Modal primaryButtonLabel={'Confirmar'}
+                   btnType={'submit'}
+                   isOpen={modalIsOpen}
+                   onClose={closeModal}
+                   handleClick={() => handleDelete(modalData.id)}>
+                Tem certeza que deseja remover o arquivo <strong>{modalData.nome}</strong> do seu histórico?
+            </Modal>
+        </>
     )
 }
 

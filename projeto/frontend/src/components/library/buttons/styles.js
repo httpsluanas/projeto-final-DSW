@@ -7,20 +7,19 @@ const baseStructure = css`
     justify-content: center;
     border-radius: 6px;
     border: 1px solid;
-    font-weight: 600;
-    font-family: Noto Sans;
-    font-size: 14px;
+
+    ${({theme}) => theme.typography.body.strong};
 `
 
 const largeStructure = css`
     padding: ${({onlyIcon}) => onlyIcon ? '16px' : '8px 16px'};
+    min-width: ${({onlyIcon}) => onlyIcon ? 'inherit' : '150px'};
     height: 52px;
     ${baseStructure};
 `
 
 const smallStructure = css`
     padding: ${({onlyIcon}) => onlyIcon ? '8px' : '4px 8px'};
-    font-size: 12px;
     font-weight: 700;
     ${baseStructure};
 `

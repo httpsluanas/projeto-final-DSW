@@ -17,6 +17,7 @@ const Modal = ({
     primaryButtonLabel,
     primaryButtonDisabled,
     btnType,
+    handleClick,
     ...otherProps
 }) => {
     return (
@@ -57,7 +58,7 @@ const Modal = ({
                 <SecondaryButton onClick={onClose}>
                     Cancelar
                 </SecondaryButton>
-                <PrimaryButton type='submit' form={'validation-form-id'} disabled={primaryButtonDisabled}>
+                <PrimaryButton type={btnType} onClick={handleClick} form={'validation-form-id'} disabled={primaryButtonDisabled}>
                     {primaryButtonLabel}
                 </PrimaryButton>
             </StyledModal.Footer>

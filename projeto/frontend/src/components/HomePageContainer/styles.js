@@ -1,32 +1,46 @@
 import styled from 'styled-components'
 import { PrimaryButton } from '../library/buttons'
+import { Form } from 'formik'
 
 export const StyledHomePageContainer = styled.div`
-
 `
 
-StyledHomePageContainer.Reference = styled.div`
+StyledHomePageContainer.Title = styled.h1(({theme}) =>`
+    ${theme.typography.title.xl};
+    color: #3D3D3D;
+    margin: 0 0 ${theme.spacing.lg} 0;
+`)
+
+StyledHomePageContainer.Paragraph = styled.p`
+    ${({theme}) => theme.typography.body.base};
+    color: #3D3D3D;
+    margin: 0;
+`
+
+StyledHomePageContainer.Reference = styled.div(({theme}) =>`
     display: flex;
     justify-content: space-between;
-    gap: 24px;
-    padding: 40px 0;
+    gap: ${theme.spacing.lg};
+    padding: ${theme.spacing.xxl} 0;
     border-top: 1px solid #F1F1F1;
     border-bottom: 1px solid #F1F1F1;
-`
+`)
 
-StyledHomePageContainer.Form = styled.form`
+StyledHomePageContainer.Reference.Title = styled.h2(({theme}) =>`
+    ${theme.typography.title.md};
+    color: #3D3D3D;
+    margin: 0 0 ${theme.spacing.lg} 0;
+`)
+
+StyledHomePageContainer.Form = styled(Form)(({theme}) =>`
     display: grid;
-    gap: 16px;
+    gap: ${theme.spacing.md};
     background: #F3F3F3;
-    padding: 24px;
+    padding: ${theme.spacing.lg};
     border-radius: 8px;
-
-    label {
-        font-weight: 600;
-    }
-`
+`)
 
 StyledHomePageContainer.Form.Submit = styled(PrimaryButton)`
-    margin-top: 8px;
+    margin-top: ${({theme}) => theme.spacing.sm};
     justify-self: end;
 `

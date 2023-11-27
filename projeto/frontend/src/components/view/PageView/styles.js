@@ -1,11 +1,17 @@
 import styled from 'styled-components'
+import { device } from '../../Utils/responsive-utils'
 
 export const StyledPageView = styled.div`
     display: flex;
-    gap: 32px;
+    justify-content: center;
+    gap: ${({theme}) => theme.spacing.xl};
+
+    @media ${device.tablet}{
+        flex-direction: column;
+    }
 `
 
-StyledPageView.ContentBody = styled.div`
+StyledPageView.ContentBody = styled.div(({theme}) =>`
     background: #FBFBFB;
     width: 100%;
     border-radius: 16px;
@@ -15,11 +21,11 @@ StyledPageView.ContentBody = styled.div`
     flex-direction: column;
     gap: 40px;
 
-    h1, h2, p {
-        margin: 0;
+    h1 {
+        ${theme.typography.title.xl};
     }
 
-    h1, h2 {
-        margin-bottom: 24px;
+    h2 {
+        ${theme.typography.title.md};
     }
-`
+`)

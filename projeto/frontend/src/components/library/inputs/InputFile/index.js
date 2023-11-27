@@ -8,6 +8,7 @@ const InputFile = ({
     disabled,
     onChange,
     value,
+    ...props
 }) => {
 
     const inputRef = useRef()
@@ -17,7 +18,7 @@ const InputFile = ({
     )
 
     return (
-        <StyledInputFile onClick={handleClick} disabled={disabled}>
+        <StyledInputFile {...props} onClick={handleClick} disabled={disabled}>
             <input id={id} name={name} disabled={disabled} ref={inputRef} onChange={onChange} type='file'/>
             <StyledInputFile.FakeButton>
                 Selecionar arquivo .csv

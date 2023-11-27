@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
+import { device } from '../../Utils/responsive-utils'
 
 export default createGlobalStyle`
     html {
@@ -15,5 +16,9 @@ export default createGlobalStyle`
         font-size: 1.6rem;
         line-height: 1.5;
         color: #3D3D3D;
+
+        @media ${device.tablet} {
+            padding: 16px;
+        }
     }
 `

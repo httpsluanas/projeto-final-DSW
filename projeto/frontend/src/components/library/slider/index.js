@@ -30,7 +30,7 @@ const Slider = ({
             ))}
             </StyledSlider.Dots>
             {React.Children.toArray(children).map((child, i) => (
-                <StyledSlider.Slide showSlide={i === currentSlide}>
+                <StyledSlider.Slide key={i} showSlide={i === currentSlide}>
                     {child}
                 </StyledSlider.Slide>
             ))}

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field } from 'formik'
+import { toast } from 'react-toastify'
 
 import Slider from '../../library/slider'
 import { getCookie } from '../../Utils/utils'
+import Loader from '../../library/loader'
 
 import { StyledValidationModal } from './styles'
 
@@ -25,7 +27,7 @@ const ValidationModal = ({
             const data = await response.json()
             setDefaultList(data)
         } catch (error) {
-            console.error('Erro ao buscar objetos:', error)
+            toast.error('Erro ao buscar objetos')
         } finally {
             setIsFetching(false)
         }
@@ -55,13 +57,13 @@ const ValidationModal = ({
             });
     
             if (response.ok) {
-                console.log('Dados enviados com sucesso!')
+                toast.success('Dados enviados com sucesso!')
                 closeModal()
             } else {
-                console.error('Erro ao enviar dados.')
+                toast.error('Erro ao enviar dados.')
             }
         } catch (error) {
-            console.error('Erro ao enviar dados:', error)
+            toast.error('Erro ao enviar dados')
         }
     }
 
@@ -72,7 +74,7 @@ const ValidationModal = ({
                                subtitle={'Lorem ipsum dolor sit amet consectetur. Nisi nec quis sagittis placerat amet amet ridiculus lorem.'}
                                primaryButtonLabel={'Enviar'}
                                btnType={'submit'}>
-            {isFetching ? 'loader' : (
+            {isFetching ? <Loader/> : (
                 <Formik initialValues={initialValues}
                         onSubmit={handleSubmit}>
                     {({setFieldValue}) => (
@@ -101,6 +103,7 @@ const ValidationModal = ({
                                                     <Field component={StyledValidationModal.Select}
                                                            name={`${dl.name}.${field}`}
                                                            options={userData.map(data => ({value: data, label: data}))}
+                                                           placeholder='Selecione...'
                                                            onChange={(e) => setFieldValue(`${dl.name}.${field}`, e.value)} />
                                                 </li>
                                             )}

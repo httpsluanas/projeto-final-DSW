@@ -28,33 +28,32 @@ StyledModal.Header = styled.div`
     display: grid;
     grid-template-areas: "title close"
                          "subtitle close";
-    padding: 24px;
+    padding: ${({theme}) => theme.spacing.lg};
     background: #F3F3F3;
     border-bottom: 1px solid #F1F1F1;
 `
 
 StyledModal.Title = styled.h2`
     grid-area: title;
-    font-family: Noto Sans;
-    font-size: 26px;
-    font-style: normal;
-    font-weight: 700;
     color: #3D3D3D;
     margin: 0;
+
+    ${({theme}) => theme.typography.title.md};
 `
 
 StyledModal.Subtitle = styled.p`
     grid-area: subtitle;
 
     margin: 0;
-    font-family: Noto Sans;
-    font-size: 14px;
-    font-style: normal;
     color: #3D3D3D;
     margin-top: 8px;
+
+    ${({theme}) => theme.typography.body.base};
 `
 
 StyledModal.CloseButton = styled.button.attrs({children: <Multiply/>})`
+    grid-area: close;
+    justify-self: right;
     cursor: pointer;
     background: transparent;
     border: none;
@@ -68,17 +67,18 @@ StyledModal.CloseButton = styled.button.attrs({children: <Multiply/>})`
     }
 `
 
-StyledModal.Body = styled.div`
-    padding: 24px 32px;
-`
+StyledModal.Body = styled.div(({theme}) =>`
+    padding: ${theme.spacing.lg} ${theme.spacing.xl};
+    ${theme.typography.body.base};
+`)
 
-StyledModal.Footer = styled.div`
+StyledModal.Footer = styled.div(({theme}) =>`
     border-radius: 0 0 16px 16px;
 
     display: flex;
-    gap: 16px;
+    gap: ${theme.spacing.md};
     justify-content: flex-end;
-    padding: 24px;
+    padding: ${theme.spacing.lg};
     background: #F3F3F3;
     border-top: 1px solid #F1F1F1;
-`
+`)

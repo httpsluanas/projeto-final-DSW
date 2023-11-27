@@ -5,43 +5,41 @@ import Select from 'react-select'
 export const StyledValidationModal = styled(Modal)`
 `
 
-StyledValidationModal.Container = styled.div`
+StyledValidationModal.Container = styled.div(({theme}) =>`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
-`
+    gap: ${theme.spacing.md};
+    margin-bottom: ${theme.spacing.lg};
+`)
 
 StyledValidationModal.List = styled.ul`
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 16px;
+    gap: ${({theme}) => theme.spacing.md};
 `
 
-StyledValidationModal.List.FakeSelect = styled.div`
+StyledValidationModal.List.FakeSelect = styled.div(({theme}) =>`
     border-radius: 8px;
     border: 1px solid #B5B5B5;
     opacity: 0.9;
     background: #F3F3F3;
-    font-family: Noto Sans;
-    font-size: 14px;
+
+    ${theme.typography.body.base}
+
     color: #767676;
-    padding: 8px;
+    padding: ${theme.spacing.sm};
     cursor: not-allowed;
-`
+`)
 
-StyledValidationModal.List.Title = styled.h3`
+StyledValidationModal.List.Title = styled.h3(({theme}) =>`
     color: #3D3D3D;
-    font-family: Noto Sans;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    margin: 0 16px 0 0;
-`
+    ${theme.typography.body.strong}
+    margin: 0 ${theme.spacing.md} 0 0;
+`)
 
-StyledValidationModal.Select = styled(Select).attrs({classNamePrefix: 'fieldsSelect'})`
+StyledValidationModal.Select = styled(Select).attrs({classNamePrefix: 'fieldsSelect'})(({theme}) =>`
     .fieldsSelect{
         &__control{
             border: none;
@@ -51,33 +49,27 @@ StyledValidationModal.Select = styled(Select).attrs({classNamePrefix: 'fieldsSel
         &__indicator{
             color: #3D3D3D;
             svg{
-                width: 16px;
-                height: 16px;
+                width: ${theme.spacing.md};
+                height: ${theme.spacing.md};
             }
             &-separator{
                 display: none;
             }
         }
         &__value-container{
-            font-family: Noto Sans;
-            font-size: 14px;
-            font-style: normal;
+            ${theme.typography.body.base}
             color: #3D3D3D;
         }
         &__single-value{
-            font-family: Noto Sans;
-            font-size: 14px;
-            font-style: normal; 
             color: #3D3D3D;
+            ${theme.typography.body.base}
         } 
         &__menu{
             box-shadow: 0 0 0 0;
             &-list{
                 position: absolute;
                 width: 100%;
-                font-family: Noto Sans;
-                font-size: 14px;
-                font-style: normal;
+                ${theme.typography.body.base}
                 border-radius: 8px;
                 color: #3D3D3D;
                 border: 1px solid #F1F1F1;
@@ -85,7 +77,7 @@ StyledValidationModal.Select = styled(Select).attrs({classNamePrefix: 'fieldsSel
             }
         }
         &__option{
-            padding: 16px;
+            padding: ${theme.spacing.md};
         }
     }
-`
+`)

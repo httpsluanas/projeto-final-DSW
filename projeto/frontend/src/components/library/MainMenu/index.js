@@ -8,7 +8,8 @@ import { usePaths } from '../../Utils/utils'
 import { useUser } from '../../Utils/user-utils'
 
 const MainMenu = ({
-    user
+    user,
+    isOpen
 }) => {
     const paths = usePaths()
     const history = useHistory()
@@ -24,41 +25,33 @@ const MainMenu = ({
         <StyledMainMenu>
             <StyledMainMenu.List>
                 <StyledMainMenu.Item.Profile>
-                    <figure>
-                        <img src='https://itpetblog.com.br/wp-content/uploads/2019/07/grumpy-cat.jpg'/>
-                    </figure>
                     <dl>
-                        <dt>{user.username}</dt>
+                        <dt>@{user.username}</dt>
                         <dd>{user.email}</dd>
                     </dl>
                 </StyledMainMenu.Item.Profile>
                 <StyledMainMenu.Item.Link>
                     <StyledMainMenu.Link to={paths.home()}>
-                        <i aria-hidden='true'>
-                            <Estate/>
-                        </i>
+                        <Estate/>
                         Página inicial
                     </StyledMainMenu.Link>
                 </StyledMainMenu.Item.Link>
                 <StyledMainMenu.Item.Link>
                     <StyledMainMenu.Link to={paths.history()}>
-                        <i aria-hidden='true'>
-                            <History/>
-                        </i> Histórico
+                        <History/>
+                        Histórico
                     </StyledMainMenu.Link>
                 </StyledMainMenu.Item.Link>
                 <StyledMainMenu.Item.Link>
-                    <StyledMainMenu.Link to=''>
-                        <i aria-hidden='true'>
-                            <InfoCircle/>
-                        </i> Ajuda e informações
+                    <StyledMainMenu.Link to={paths.help()}>
+                        <InfoCircle/>
+                        Ajuda e informações
                     </StyledMainMenu.Link>
                 </StyledMainMenu.Item.Link>
                 <StyledMainMenu.Item.Link>
                     <StyledMainMenu.Link to={'/'} onClick={handleLogout}>
-                        <i aria-hidden='true'>
-                            <Signout/>
-                        </i> Sair
+                        <Signout/>
+                        Sair
                     </StyledMainMenu.Link>
                 </StyledMainMenu.Item.Link>
             </StyledMainMenu.List>
