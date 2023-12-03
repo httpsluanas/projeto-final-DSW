@@ -7,6 +7,7 @@ import HelpContainer from '../../HelpContainer';
 import LoginContainer from '../../LoginContainer';
 import RegisterContainer from '../../RegisterContainer';
 import Header from '../../library/header';
+import { NotFound } from '../../library/pages'
 
 import { PathsContext } from '../../Utils/utils'
 import { useUser } from '../../Utils/user-utils';
@@ -54,8 +55,14 @@ const PageView = ({
                                     <Route path={paths.help()}>
                                         <HelpContainer/>
                                     </Route>
+                                    <Route>
+                                        <NotFound url={paths.home()}/>
+                                    </Route>
                                 </Switch>
                             </StyledPageView.ContentBody>
+                        </Route>
+                        <Route>
+                            <NotFound url={paths.login()}/>
                         </Route>
                     </Switch>
                 </Router>

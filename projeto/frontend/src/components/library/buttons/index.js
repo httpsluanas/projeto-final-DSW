@@ -10,9 +10,10 @@ const Button = ({
     className,
     onClick,
     form,
-    onlyIcon
+    onlyIcon,
+    as
 }) => (
-    <StyledButton type={type ?? 'button'} {...{size, disabled, className, onClick, form, onlyIcon}}>
+    <StyledButton type={type ?? 'button'} {...{size, disabled, className, onClick, form, onlyIcon, as}}>
         {children}
     </StyledButton>
 )

@@ -9,7 +9,7 @@ StyledMainMenu.Nav = styled.nav`
     position: absolute;
     background: #FCFCFC;
     border: 1px solid #F1F1F1;
-    box-shadow: 0px 2px 2px 0px rgba(204, 204, 204, 0.12);
+    box-shadow: 0px 2px 2px 0px rgba(204, 204, 204, 0.12), 0px 8px 16px 0px rgba(204, 204, 204, 0.25);
     border-radius: 10px;
     left: 0;
     margin-top: ${({theme}) => theme.spacing.sm};
