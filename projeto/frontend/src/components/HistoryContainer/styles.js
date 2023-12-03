@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { SecondaryButton } from '../library/buttons'
 import { Input } from '../library/inputs'
+import { device, size } from '../Utils/responsive-utils'
 
 export const StyledHistoryContainer = styled.div`
 
@@ -32,10 +33,14 @@ StyledHistoryContainer.Table = styled.table(({theme}) =>`
     th, td {
         padding: ${theme.spacing.sm};
         text-align: left;
+        text-wrap: nowrap;
 
         &:first-of-type {
             width: 60%;
             padding-left: ${theme.spacing.md};
+            @media ${device.laptopL} {
+                max-width: 200px;
+            }
         }
         &:last-of-type {
             padding-right: ${theme.spacing.md};
@@ -51,9 +56,22 @@ StyledHistoryContainer.Table = styled.table(({theme}) =>`
     }
 `)
 
+StyledHistoryContainer.FileName = styled.span`
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+`
+
 StyledHistoryContainer.Actions = styled.div`
     display: inline-flex;
     gap: ${({theme}) => theme.spacing.sm};
+
+    span {
+        @media ${device.tablet} {
+            display: none;
+        }
+    }
 `
 
 StyledHistoryContainer.RenameButton = styled(SecondaryButton).attrs({size: 'SMALL'})`
@@ -77,11 +95,23 @@ StyledHistoryContainer.RemoveButton = styled(SecondaryButton).attrs({size: 'SMAL
 `
 
 StyledHistoryContainer.RenameInput = styled(Input)`
-    flex: 1;
+    @media ${device.laptopL} {
+        width: 100%;
+    }
 `
 
-StyledHistoryContainer.Table.Editing = styled.div`
+StyledHistoryContainer.Table.Editing = styled.div(({theme}) =>`
     display: flex;
-    gap: ${({theme}) => theme.spacing.md};
+    gap: ${theme.spacing.md};
     align-items: center;
-`
+
+    @media ${device.laptopL} {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: ${theme.spacing.sm};
+
+        button {
+            margin-right: ${theme.spacing.sm};
+        }
+    }
+`)

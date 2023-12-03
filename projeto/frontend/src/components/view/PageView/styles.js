@@ -1,25 +1,17 @@
 import styled from 'styled-components'
-import { device } from '../../Utils/responsive-utils'
 
 export const StyledPageView = styled.div`
-    display: flex;
-    justify-content: center;
-    gap: ${({theme}) => theme.spacing.xl};
-
-    @media ${device.tablet}{
-        flex-direction: column;
-    }
+    position: relative;
 `
 
 StyledPageView.ContentBody = styled.div(({theme}) =>`
     background: #FBFBFB;
-    width: 100%;
     border-radius: 16px;
-    padding: 36px;
+    padding: ${theme.spacing.lg};
 
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: ${theme.spacing.lg};
 
     h1 {
         ${theme.typography.title.xl};

@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 
 const baseStructure = css`
     display: inline-flex;
-    gap: 4px;
+    gap: ${({theme}) => theme.spacing.sm};
     align-items: center;
     justify-content: center;
     border-radius: 6px;
@@ -12,14 +12,14 @@ const baseStructure = css`
 `
 
 const largeStructure = css`
-    padding: ${({onlyIcon}) => onlyIcon ? '16px' : '8px 16px'};
-    min-width: ${({onlyIcon}) => onlyIcon ? 'inherit' : '150px'};
+    padding: ${({onlyIcon, theme}) => onlyIcon ? theme.spacing.md : `${theme.spacing.sm} ${theme.spacing.md}`};
+    min-width: ${({onlyIcon}) => onlyIcon ? 'inherit' : '125px'};
     height: 52px;
     ${baseStructure};
 `
 
 const smallStructure = css`
-    padding: ${({onlyIcon}) => onlyIcon ? '8px' : '4px 8px'};
+    padding: ${({onlyIcon, theme}) => onlyIcon ? theme.spacing.sm : `${theme.spacing.xs} ${theme.spacing.sm}`};
     font-weight: 700;
     ${baseStructure};
 `

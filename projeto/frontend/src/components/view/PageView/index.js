@@ -1,12 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
-import MainMenu from '../../library/mainMenu'
 import HomePageContainer from '../../HomePageContainer'
 import HistoryContainer from '../../HistoryContainer'
 import HelpContainer from '../../HelpContainer';
 import LoginContainer from '../../LoginContainer';
 import RegisterContainer from '../../RegisterContainer';
+import Header from '../../library/header';
 
 import { PathsContext } from '../../Utils/utils'
 import { useUser } from '../../Utils/user-utils';
@@ -42,7 +42,7 @@ const PageView = ({
                             <RegisterContainer/>
                         </Route>
                         <Route path={paths.project()}>
-                            <MainMenu user={!!userInfo ? userInfo.user_info : {}}/>
+                            <Header user={!!userInfo ? userInfo.user_info : {}}/>
                             <StyledPageView.ContentBody>
                                 <Switch>
                                     <Route path={paths.home()}>

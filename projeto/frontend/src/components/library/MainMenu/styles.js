@@ -1,64 +1,51 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { device } from '../../Utils/responsive-utils'
 
 export const StyledMainMenu = styled.nav`
+
 `
 
-StyledMainMenu.List = styled.ul`
+StyledMainMenu.Nav = styled.nav`
+    position: absolute;
+    background: #FCFCFC;
+    border: 1px solid #F1F1F1;
+    box-shadow: 0px 2px 2px 0px rgba(204, 204, 204, 0.12);
+    border-radius: 10px;
+    left: 0;
+    margin-top: ${({theme}) => theme.spacing.sm};
+    z-index: 99999;
+`
+
+StyledMainMenu.List = styled.ul(({theme}) =>`
     width: 300px;
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: ${theme.spacing.xs};
     i {
         display: inline-block;
         vertical-align: bottom;
-        margin-right: 6px;
+        margin-right: ${theme.spacing.sm};
     }
-
-    @media ${device.tablet} {
-        width: 100%;
-        flex-direction: row;
-    }
-`
+`)
 
 StyledMainMenu.Item = styled.li`
     ${({theme}) => theme.typography.body.strong};
 `
 
-StyledMainMenu.Item.Profile = styled(StyledMainMenu.Item)`
-    background: #FBFBFB;
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 16px;
-
-    dl {
-        margin: 0;
-        white-space: nowrap;
-        dd {
-            font-weight: 400;
-            color: #767676;
-            margin: 0;
-            text-decoration: none;
-        }
-    }
-`
-
 StyledMainMenu.Item.Link = styled(StyledMainMenu.Item)`
-    border-radius: 10px;
     &:hover {
         background: #EDEDED;
     }
 `
 
-StyledMainMenu.Link = styled(Link)`
+StyledMainMenu.Link = styled(Link)(({theme}) =>`
     width: 100%;
     box-sizing: border-box;
     display: inline-block;
     color: #3D3D3D;
-    padding: 16px;
+    padding: ${theme.spacing.md} ${theme.spacing.lg};
     text-decoration: none;
-`
+`)

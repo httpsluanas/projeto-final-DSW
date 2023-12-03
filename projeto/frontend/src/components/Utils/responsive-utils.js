@@ -1,6 +1,6 @@
 export const px2vw = (size, width = 1440) => `${(size / width) * 100}vw`;
 
-const size = {
+export const size = {
     mobileS : '320px'  ,
     mobileM : '375px'  ,
     mobileL : '425px'  ,

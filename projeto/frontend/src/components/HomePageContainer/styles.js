@@ -20,8 +20,8 @@ StyledHomePageContainer.Paragraph = styled.p`
 StyledHomePageContainer.Reference = styled.div(({theme}) =>`
     display: flex;
     justify-content: space-between;
-    gap: ${theme.spacing.lg};
-    padding: ${theme.spacing.xxl} 0;
+    gap: ${theme.spacing.md};
+    padding: ${theme.spacing.md} 0;
     border-top: 1px solid #F1F1F1;
     border-bottom: 1px solid #F1F1F1;
 `)
@@ -29,7 +29,7 @@ StyledHomePageContainer.Reference = styled.div(({theme}) =>`
 StyledHomePageContainer.Reference.Title = styled.h2(({theme}) =>`
     ${theme.typography.title.md};
     color: #3D3D3D;
-    margin: 0 0 ${theme.spacing.lg} 0;
+    margin: 0 0 ${theme.spacing.md} 0;
 `)
 
 StyledHomePageContainer.Form = styled(Form)(({theme}) =>`

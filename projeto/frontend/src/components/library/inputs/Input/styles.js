@@ -8,7 +8,7 @@ StyledInput.Input = styled.input(({hasError, disabled, theme}) => `
     width: 100%;
     height: 41px;
     box-sizing: border-box;
-    padding: 8px 16px;
+    padding: ${theme.spacing.sm} ${theme.spacing.md};
     border-radius: 8px;
 
     background: ${disabled ? '#EBEBEB' : '#FBFBFB'};

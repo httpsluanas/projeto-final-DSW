@@ -111,15 +111,17 @@ const HistoryContainer = ({
                                             {editingNameId === item.id ? (
                                                 <StyledHistoryContainer.Table.Editing>
                                                     <StyledHistoryContainer.RenameInput defaultValue={item.nome} onChange={(e) => setNewName(e.target.value)}/>
-                                                    <PrimaryButton disabled={newName === '' || !newName} size='SMALL' onClick={() => handleEdit(item.id, newName)}>
-                                                        Confirmar
-                                                    </PrimaryButton>
-                                                    <SecondaryButton size='SMALL' onClick={() => setEditingNameId(null)}>
-                                                        Cancelar
-                                                    </SecondaryButton>
+                                                    <div>
+                                                        <PrimaryButton disabled={newName === '' || !newName} size='SMALL' onClick={() => handleEdit(item.id, newName)}>
+                                                            Confirmar
+                                                        </PrimaryButton>
+                                                        <SecondaryButton size='SMALL' onClick={() => setEditingNameId(null)}>
+                                                            Cancelar
+                                                        </SecondaryButton>
+                                                    </div>
                                                 </StyledHistoryContainer.Table.Editing>
                                             ) : (
-                                                item.nome
+                                                <StyledHistoryContainer.FileName>{item.nome}</StyledHistoryContainer.FileName>
                                             )} 
                                         </td>
                                         <td>
@@ -128,10 +130,10 @@ const HistoryContainer = ({
                                         <td>
                                             <StyledHistoryContainer.Actions>
                                                 <StyledHistoryContainer.RenameButton onClick={() => setEditingNameId(item.id)}>
-                                                    <Pen/> Renomear
+                                                    <Pen/> <span>Renomear</span>
                                                 </StyledHistoryContainer.RenameButton>
                                                 <StyledHistoryContainer.RemoveButton onClick={() => openModal(item)}>
-                                                    <TrashAlt/> Excluir
+                                                    <TrashAlt/> <span>Excluir</span>
                                                 </StyledHistoryContainer.RemoveButton>
                                             </StyledHistoryContainer.Actions>
                                         </td>
