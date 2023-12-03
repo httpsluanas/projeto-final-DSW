@@ -10,10 +10,7 @@ export default createGlobalStyle(({theme}) =>`
         margin: 0;
         padding: ${theme.spacing.xl};
         background: #F3F3F3;
-        font-family: 'Noto Sans', sans-serif;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 1.5;
+        ${theme.typography.body.base};
         color: #3D3D3D;
 
         @media ${device.tablet} {
