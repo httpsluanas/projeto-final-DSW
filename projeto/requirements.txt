@@ -5,3 +5,9 @@ django-filter
 psycopg2-binary
 django-jsonfield
 django-dynamic-models
+django-cors-headers
+model_mommy 
+coverage
+environs
+whitenoise
+gunicorn

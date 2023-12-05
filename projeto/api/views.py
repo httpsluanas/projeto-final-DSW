@@ -1,26 +1,23 @@
 import csv
 import json
-from django.http import HttpResponse
-from django.shortcuts import render
-from .forms import CSVUploadForm
-from .models import *
-from .db_utils import createTable
-from django.apps import apps
+import time
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.db import transaction
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
-from .serializers import CustomUserSerializer
-from rest_framework import status
-from rest_framework.generics import CreateAPIView
-from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
-from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from django.db import transaction
-from django.shortcuts import get_object_or_404
-from .models import EquipamentoPublico, Geometria, Proprietario, RRR, Imovel
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.generics import CreateAPIView
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
+from .forms import CSVUploadForm
+from .models import ModeloDinamico, EquipamentoPublico, Geometria, Proprietario, RRR, Imovel
+from .serializers import CustomUserSerializer
+from .db_utils import createTable
 
 CustomUser = get_user_model()
 
@@ -30,38 +27,39 @@ def uploadFile(request):
         form = CSVUploadForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                csvFile = form.cleaned_data['csv_arq']
-                fileName = csvFile.name
-                formattedFile = csvFile.read().decode('utf-8').splitlines()
-                dic_csv = csv.DictReader(formattedFile)
+                arquivo_csv = form.cleaned_data['csv_arq']
+                nome_arquivo = arquivo_csv.name
+                arquivo_formatado = arquivo_csv.read().decode('utf-8').splitlines()
+                dicionario_csv = csv.DictReader(arquivo_formatado)
 
-                csvData = list(dic_csv)
-                csvFile.seek(0)
+                dados_csv = list(dicionario_csv)
+                arquivo_csv.seek(0)
 
-                createTable(dic_csv)
+                tabela_nome = f"input_{int(time.time())}"
+                campos_renomeados = [campo.replace(" ", "_") for campo in dicionario_csv.fieldnames]
+                campos = dados_csv[0].keys()
 
-                fields = csvData[0].keys()
+                modelo_dinamico = ModeloDinamico.objects.create(nome=nome_arquivo)
+                id = modelo_dinamico.id
 
-                # Gere o id no backend antes de criar o objeto
-                dinamicModel = ModeloDinamico.objects.create(nome=fileName)
-                id = dinamicModel.id  # Agora você tem o id gerado no backend
+                createTable(tabela_nome, campos_renomeados, dados_csv)
 
-                dinamicData = []
-                for line in csvData:
-                    dataLine = {}
-                    for field in fields:
-                        dataLine[field] = line[field]
-                    dinamicData.append(dataLine)
-
-                dinamicModel.data = json.dumps(dinamicData)
-                dinamicModel.save()
+                #dados_dinamicos = [{campo: line[campo] for campo in campos} for line in dados_csv]
+                #modelo_dinamico.data = json.dumps(dados_dinamicos)
+                modelo_dinamico.data = json.dumps(dados_csv)
+                modelo_dinamico.save()
 
                 response_data = {'id': id}
+                print(f"CSV processado com sucesso! ID: {id}")
                 return JsonResponse(response_data)
+            except csv.Error as e:
+                print(f"Erro ao processar CSV: {e}")
+                return JsonResponse({'error': 'Erro ao processar o arquivo CSV'}, status=400)
             except Exception as e:
                 print(f"Erro ao processar: {e}")
                 return JsonResponse({'error': 'Erro interno ao processar a solicitação'}, status=500)
         else:
+            print("Formulário inválido:", form.errors)
             return JsonResponse({'error': 'Formulário inválido'}, status=400)
     else:
         return JsonResponse({'error': 'Método não permitido'}, status=405)
@@ -111,19 +109,16 @@ def processar_formulario(request):
             rrr_data = data.get('rrr', {})
             imovel_data = data.get('imovel', {})
 
-            # Criar instâncias dos modelos sem salvar no banco de dados ainda
             equipamentoPublico = EquipamentoPublico(**equipamento_data)
             geometria = Geometria(**geometria_data)
             proprietario = Proprietario(**proprietario_data)
             rrr = RRR(**rrr_data)
 
-            # Salvando no banco de dados
             equipamentoPublico.save()
             geometria.save()
             proprietario.save()
             rrr.save()
 
-            # Criar instância de Imovel e associar às instâncias relacionadas
             imovel = Imovel.objects.create(
                 endereco=imovel_data.get('endereco', ''),
                 tipo=imovel_data.get('tipo', ''),

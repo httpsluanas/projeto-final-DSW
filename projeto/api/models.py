@@ -3,17 +3,9 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils.translation import gettext_lazy as _
 
 class ModeloDinamico(models.Model):
-    data = models.TextField()
     nome = models.CharField(max_length=255, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-
-
-class CamposDinamicos(models.Model):
-    modelo_dinamico = models.ForeignKey(ModeloDinamico, on_delete=models.CASCADE)
-    nome_campo = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.nome_campo
+    data = models.TextField()
 
 class EquipamentoPublico(models.Model):
     id_equipamento = models.AutoField(primary_key=True)
