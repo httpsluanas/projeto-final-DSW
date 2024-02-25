@@ -18,10 +18,12 @@ from .forms import CSVUploadForm
 from .models import ModeloDinamico, EquipamentoPublico, Geometria, Proprietario, RRR, Imovel
 from .serializers import CustomUserSerializer
 from .db_utils import createTable
+from django.views.decorators.csrf import csrf_exempt
 
 CustomUser = get_user_model()
 
 @transaction.atomic
+@csrf_exempt
 def uploadFile(request):
     if request.method == 'POST':
         form = CSVUploadForm(request.POST, request.FILES)

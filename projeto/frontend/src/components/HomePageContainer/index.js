@@ -5,7 +5,6 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 
 import { InputFile, Field } from '../library/inputs'
-import { getCookie } from '../Utils/utils'
 import ValidationModal from './ValidationModal'
 
 import { StyledHomePageContainer } from './styles'
@@ -34,17 +33,9 @@ const HomePageContainer = ({
 
     const closeModal = () => setIsOpen(false)
 
-    const [csrftoken, setCsrftoken] = useState(null)
-
-    useEffect(() => {
-        const csrftoken = getCookie('csrftoken')
-        setCsrftoken(csrftoken)
-    }, [])
-
     const handleSubmit = async (values, { resetForm }) => {
         const formData = new FormData()
         formData.append('csv_arq', values.csv_arq)
-        formData.append('csrfmiddlewaretoken', csrftoken)
     
         try {
           const response = await axios.post('/api/upload/', formData, {
