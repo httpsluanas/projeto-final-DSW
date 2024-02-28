@@ -3,7 +3,6 @@ import { Formik, Form, Field } from 'formik'
 import { toast } from 'react-toastify'
 
 import Slider from '../../library/slider'
-import { getCookie } from '../../Utils/utils'
 import Loader from '../../library/loader'
 
 import { StyledValidationModal } from './styles'
@@ -18,7 +17,6 @@ const ValidationModal = ({
     const [isFetching, setIsFetching] = useState(true)
 
     const [currentSlide, setCurrentSlide] = useState(0)
-    const [csrftoken, setCsrftoken] = useState(null)
 
     const fetchObjetos = async () => {
         try {
@@ -35,8 +33,6 @@ const ValidationModal = ({
 
     useEffect(() => {
       fetchObjetos()
-      const csrftoken = getCookie('csrftoken')
-      setCsrftoken(csrftoken)
     }, [])
 
     const initialValues = !!defaultList ? defaultList.reduce((acc, modelo) => {
@@ -52,7 +48,6 @@ const ValidationModal = ({
         try {
             const response = await fetch('/api/processar_formulario/', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken, },
                 body: JSON.stringify(values),
             });
     

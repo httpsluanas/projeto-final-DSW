@@ -100,6 +100,7 @@ def defaultDataTable(request):
 
     return JsonResponse(tables, safe=False)
 
+@csrf_exempt
 def processar_formulario(request):
     if request.method == 'POST':
         try:
